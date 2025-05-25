@@ -771,7 +771,7 @@ export default function App() {
  
   return (
     <div style={{ background: "#fafbfc", minHeight: "2400px", fontFamily: "sans-serif" }}>
-      <h2 style={{ marginLeft: 20 }}>SHARKS TUESDAY TOURNAMENT</h2>
+      <h2 style={{ marginLeft: 20 }}>Kansas City Pool Tourney</h2>
       <div style={{ display: "flex", gap: 32 }}>
         <div style={{ minWidth: 220, marginLeft: 40 }}>
           <div>
