@@ -1,4 +1,6 @@
 body {
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23308dc0' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -10,4 +12,43 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.sidebar {
+  top: 0;
+  left: 0;
+  width: 20rem;
+  z-index: 20;
+  background: 'transparent';
+  overflow-y: auto;
+  height: 100vh;
+  border-radius: 16px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  pointer-events: auto;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 80vw !important;       /* Sidebar is 80% of screen */
+    min-width: 0 !important;
+    max-width: 80vw !important;
+    border-radius: 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 20;
+    box-shadow: 2px 0 16px #0002;
+    flex: unset;                  /* Avoid flex: 1 here */
+  }
+}
+
+.sidebar-content {
+  scrollbar-width: none;    /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+.sidebar-content::-webkit-scrollbar {
+  display: none;            /* Chrome, Safari, Opera */
 }
