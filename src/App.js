@@ -1013,34 +1013,17 @@ export default function App() {
         {/* Future nav links can go here */}
       </nav>
       <div style={{ display: "flex", alignItems: "flex-start", gap: 0}}>
-        <div className="sidebar">
-          {/* Toggle Button: always visible */}
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 0 }}>
+          {/* Toggle button */}
           <button
             onClick={() => setSidebarOpen((open) => !open)}
-            style={{
-              position: "absolute",
-              top: 30,
-              left: sidebarOpen ? "18rem" : "0.7rem", // adjust left as needed
-              zIndex: 21,
-              width: 34,
-              height: 34,
-              borderRadius: "50%",
-              background: "#fff",
-              color: "#2980b9",
-              border: "2px solid #2980b9",
-              fontWeight: "bold",
-              fontSize: 22,
-              boxShadow: "0 2px 8px #0001",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-              transition: "left 0.1s",
-            }}
+            className="sidebar-toggle"
             aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}
           >
             {sidebarOpen ? "×" : "+"}
           </button>
+        </div>  
+        <div className={`sidebar${sidebarOpen ? " open" : ""}`}>
 
           {/* Sidebar Content, only render if open */}
           {sidebarOpen && (
@@ -1302,7 +1285,16 @@ export default function App() {
             </div>
           )}
         </div>
-        <div style={{ position: "relative", width: 2400, height: 1800, marginLeft: sidebarOpen ? "18rem" : "2.4rem", transition: "margin-left 0.25s" }}>
+        <div
+          style={{
+            position: "relative",
+            width: 2400,
+            height: 1800,
+            marginLeft: sidebarOpen ? "18rem" : "2.4rem",
+            transition: "margin-left 0.25s"
+          }}
+          className="bracket-container"
+        >
           <svg
             width={2400}
             height={svgHeight}
@@ -1451,7 +1443,6 @@ export default function App() {
                   </div>
                 </div>
               </div>
-
             );
           })}
         </div>
