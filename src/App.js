@@ -1024,19 +1024,7 @@ export default function App() {
           </button>
         </div>  
         <div className={`sidebar${sidebarOpen ? " open" : ""}`}>
-          {/* Sidebar Content, only render if open */}
-          {sidebarOpen && (
-            <div className="sidebar-content" 
-            style={{
-              height: "100%",
-              width: "100%",
-              boxSizing: "border-box",
-              padding: "1.3rem 1rem",
-              overflowY: "auto",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
+            <div className="sidebar-content">
               <div>
                 <b style={{
                   padding: "7px 20px",
@@ -1282,7 +1270,6 @@ export default function App() {
                 Simulate Tournament
               </button> */}
             </div>
-          )}
         </div>
         <div
           style={{

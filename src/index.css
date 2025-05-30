@@ -65,8 +65,15 @@ code {
 }
 
 .sidebar-content {
-  scrollbar-width: none;    /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1.3rem 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 .sidebar-content::-webkit-scrollbar {
   display: none;            /* Chrome, Safari, Opera */
