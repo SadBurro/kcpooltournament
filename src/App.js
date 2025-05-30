@@ -1012,8 +1012,8 @@ export default function App() {
         </div>
         {/* Future nav links can go here */}
       </nav>
-      <div style={{ display: "flex", alignItems: "flex-start", gap: 0}}>
-        <div style={{ display: "flex", alignItems: "flex-start", gap: 0 }}>
+      <div>
+        <div>
           {/* Toggle button */}
           <button
             onClick={() => setSidebarOpen((open) => !open)}
