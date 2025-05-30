@@ -121,11 +121,11 @@ code {
   .sidebar.open {
     transform: translate(-50%, -50%) !important;
   }
-} */
+}
 
 @media (max-width: 900px) {
   .sidebar-toggle {
-    top: 48px; /* adjust for mobile navbar */
+    top: 48px;
   }
 }
 
@@ -133,4 +133,4 @@ code {
   .bracket-container {
     margin-left: 0 !important;
   }
-}
+} */
