@@ -30,9 +30,9 @@ code {
   pointer-events: auto;
 }
 
-@media (max-width: 900px) {
+/* @media (max-width: 900px) {
   .sidebar {
-    width: 80vw !important;       /* Sidebar is 80% of screen */
+    width: 80vw !important;       
     min-width: 0 !important;
     max-width: 80vw !important;
     border-radius: 0;
@@ -41,9 +41,9 @@ code {
     top: 0;
     z-index: 20;
     box-shadow: 2px 0 16px #0002;
-    flex: unset;                  /* Avoid flex: 1 here */
+    flex: unset;                
   }
-}
+} */
 
 .sidebar-content {
   scrollbar-width: none;    /* Firefox */
