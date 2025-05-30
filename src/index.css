@@ -96,7 +96,7 @@ code {
   text-shadow: 0 1px 2px #0002;
 }
 
-@media (max-width: 900px) {
+/* @media (max-width: 900px) {
   .sidebar {
     width: auto !important;
     min-width: 0 !important;
@@ -121,7 +121,7 @@ code {
   .sidebar.open {
     transform: translate(-50%, -50%) !important;
   }
-}
+} */
 
 @media (max-width: 900px) {
   .sidebar-toggle {
