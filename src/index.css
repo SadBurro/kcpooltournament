@@ -38,27 +38,28 @@ code {
 
 @media (max-width: 900px) {
   .sidebar {
-    display: block !important;
-    width: 80vw !important;       
+    width: auto !important;
     min-width: 0 !important;
-    max-width: 80vw !important;
-    border-radius: 0;
+    max-width: 94vw !important;
+    border-radius: 20px;
     position: fixed;
-    left: 20px;
-    top: 20px;
-    z-index: 30;
+    left: 50%;
+    top: 50%;
+    transform: translate(-100%, -50%);
+    /* When .open, slide to center */
+    box-shadow: 2px 4px 24px #0004;
     background: #fff;
-    flex: unset;                
-    height: 100vh;
-    transition: transform 0.3s;
-    transform: translateX(-100%);
-    display:block;
+    padding: 40px !important;
+    border: 2px solid #000;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    transition: transform 0.3s cubic-bezier(.4,0,.2,1);
   }
   .sidebar.open {
-    transform: translateX(0);
-  }
-  .sidebar:not(.open) {
-    display: block;
+    transform: translate(-50%, -50%);
   }
 }
 
