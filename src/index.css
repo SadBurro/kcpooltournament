@@ -41,21 +41,22 @@ code {
     width: auto !important;
     min-width: 0 !important;
     max-width: 94vw !important;
+    max-height: 90vh;
     border-radius: 20px;
     position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-100%, -50%);
-    /* When .open, slide to center */
-    box-shadow: 2px 4px 24px #0004;
-    background: #fff;
     padding: 40px !important;
     border: 2px solid #000;
+    box-shadow: 2px 4px 24px #0004;
+    background: #fff;
     z-index: 1000;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
+    overflow-y: auto;
     transition: transform 0.3s cubic-bezier(.4,0,.2,1);
   }
   .sidebar.open {
