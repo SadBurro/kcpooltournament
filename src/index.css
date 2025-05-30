@@ -46,7 +46,7 @@ code {
     position: fixed;
     left: 50%;
     top: 50%;
-    transform: translate(-100%, -50%);
+    transform: translate(-100%, -50%) !important; 
     padding: 40px !important;
     border: 2px solid #000;
     box-shadow: 2px 4px 24px #0004;
@@ -60,7 +60,7 @@ code {
     transition: transform 0.3s cubic-bezier(.4,0,.2,1);
   }
   .sidebar.open {
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) !important;
   }
 }
 
