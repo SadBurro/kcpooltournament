@@ -7,6 +7,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding-top: 40px;
 }
 
 code {
@@ -15,7 +16,7 @@ code {
 }
 
 .sidebar {
-  top: 0;
+  padding-top: 40px;
   left: 0;
   width: 20rem;
   z-index: 20;
@@ -51,4 +52,28 @@ code {
 }
 .sidebar-content::-webkit-scrollbar {
   display: none;            /* Chrome, Safari, Opera */
+}
+
+.navbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 40px;
+  background: #48ACD3;
+  border-bottom: 2px solid #21749b;
+  display: flex;
+  align-items: center;
+  z-index: 100;
+  box-shadow: 0 2px 8px #0001;
+  padding: 0 30px;
+}
+
+.navbar-left {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  font-family: inherit;
+  text-shadow: 0 1px 2px #0002;
 }

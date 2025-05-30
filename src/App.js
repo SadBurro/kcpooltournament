@@ -1006,22 +1006,13 @@ export default function App() {
   
   return (
     <div style={{fontFamily: "sans-serif" }}>
-      <div style={{ fontFamily: "sans-serif", display: "flex", justifyContent: "center" }}>
-        <h2 style={{
-          display: "inline-block",
-          textAlign: "center",
-          marginTop: 10,
-          padding: "7px 24px",
-          borderRadius: 9,
-          background: "#48ACD3",
-          color: "#fff",
-          border: "2px solid #000000",
-          boxShadow: "2px 2px 7px #ddd"
-        }}>
+      <nav className="navbar">
+        <div className="navbar-left">
           Kansas City Pool Tournament
-        </h2>
-      </div>
-      <div style={{ display: "flex", alignItems: "flex-start", gap: 0 }}>
+        </div>
+        {/* Future nav links can go here */}
+      </nav>
+      <div style={{ display: "flex", alignItems: "flex-start", gap: 0}}>
         <div className="sidebar">
           {/* Toggle Button: always visible */}
           <button
