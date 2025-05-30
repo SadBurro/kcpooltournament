@@ -1024,7 +1024,6 @@ export default function App() {
           </button>
         </div>  
         <div className={`sidebar${sidebarOpen ? " open" : ""}`}>
-
           {/* Sidebar Content, only render if open */}
           {sidebarOpen && (
             <div className="sidebar-content" 
