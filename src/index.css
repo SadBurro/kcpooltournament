@@ -29,10 +29,11 @@ code {
   flex-direction: column;
   position: fixed;
   pointer-events: auto;
+  transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+  transform: translateX(-100%);
 }
-
-.sidebar:not(.open) {
-  display: none;
+.sidebar.open {
+  transform: translateX(0);
 }
 
 @media (max-width: 900px) {
@@ -44,9 +45,9 @@ code {
     border-radius: 0;
     position: fixed;
     left: 20px;
-    top: 0;
+    top: 20px;
     z-index: 30;
-    background: transparent;
+    background: #fff;
     flex: unset;                
     height: 100vh;
     transition: transform 0.3s;
