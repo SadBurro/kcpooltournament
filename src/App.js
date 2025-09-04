@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { buildBracket, getStandings, finalizeByeMatches, propagateAutoWinners } from './utils/bracketUtils';
 import { getBracketNodePositions } from './utils/layoutUtils';
 import { capitalizeName, shuffleArray } from './utils/nameUtils';
+import { useLocalStorage } from './hooks/useLocalStorage';
 import Bracket from './components/Bracket';
 import Sidebar from './components/Sidebar';
 import TableView from './components/TableView';
@@ -18,7 +19,7 @@ export default function App() {
   const [totalTables, setTotalTables] = useState(8);
   const [tablesStartWithZero, setTablesStartWithZero] = useState(false);
   const [customTableNumbers, setCustomTableNumbers] = useState('1,2,3,4,5,6,7,8');
-  const [lastPlayerList, setLastPlayerList] = useState('');
+  const [lastPlayerList, setLastPlayerList] = useLocalStorage('lastPlayerList', '');
   const [showShuffleWarning, setShowShuffleWarning] = useState(false);
   const [viewMode, setViewMode] = useState('bracket'); // 'bracket' or 'table'
 
