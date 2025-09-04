@@ -4,24 +4,23 @@ import React, { useState, useRef, useEffect } from 'react';
 import { buildBracket, getStandings, finalizeByeMatches, propagateAutoWinners } from './utils/bracketUtils';
 import { getBracketNodePositions } from './utils/layoutUtils';
 import { capitalizeName, shuffleArray } from './utils/nameUtils';
-import { useLocalStorage } from './hooks/useLocalStorage';
 import Bracket from './components/Bracket';
 import Sidebar from './components/Sidebar';
 import TableView from './components/TableView';
 
 export default function App() {
-  // Players management - using localStorage for persistence
-  const [playersText, setPlayersText] = useLocalStorage('tournamentPlayers', '');
-  const [bracket, setBracket] = useLocalStorage('tournamentBracket', []);
-  const [payoutAmounts, setPayoutAmounts] = useLocalStorage('payoutAmounts', ['']);
-  const [numPayoutPlaces, setNumPayoutPlaces] = useLocalStorage('numPayoutPlaces', 3);
-  const [sidebarOpen, setSidebarOpen] = useLocalStorage('sidebarOpen', true);
-  const [totalTables, setTotalTables] = useLocalStorage('totalTables', 8);
-  const [tablesStartWithZero, setTablesStartWithZero] = useLocalStorage('tablesStartWithZero', false);
-  const [customTableNumbers, setCustomTableNumbers] = useLocalStorage('customTableNumbers', '1,2,3,4,5,6,7,8');
-  const [lastPlayerList, setLastPlayerList] = useLocalStorage('lastPlayerList', '');
+  // Players management - using in-memory state instead of localStorage
+  const [playersText, setPlayersText] = useState('');
+  const [bracket, setBracket] = useState([]);
+  const [payoutAmounts, setPayoutAmounts] = useState(['']);
+  const [numPayoutPlaces, setNumPayoutPlaces] = useState(3);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [totalTables, setTotalTables] = useState(8);
+  const [tablesStartWithZero, setTablesStartWithZero] = useState(false);
+  const [customTableNumbers, setCustomTableNumbers] = useState('1,2,3,4,5,6,7,8');
+  const [lastPlayerList, setLastPlayerList] = useState('');
   const [showShuffleWarning, setShowShuffleWarning] = useState(false);
-  const [viewMode, setViewMode] = useLocalStorage('viewMode', 'bracket'); // 'bracket' or 'table'
+  const [viewMode, setViewMode] = useState('bracket'); // 'bracket' or 'table'
 
   const [nodePositions, setNodePositions] = useState({});
 
@@ -49,23 +48,10 @@ export default function App() {
   // Navigation functions for bracket sections
   const scrollToWinnersBracket = () => {
     if (viewMode === 'bracket') {
-      // Find the first winners bracket match position
-      const winnersMatches = bracket.filter(m => m.bracket === 'W');
-      if (winnersMatches.length > 0) {
-        const firstWinnersMatch = winnersMatches[0];
-        const position = nodePositions[firstWinnersMatch.id];
-        if (position) {
-          // Use the specific container ID we added
-          const container = document.getElementById('main-content-container');
-          if (container) {
-            // Scroll to the match position, accounting for the padding in the main container
-            container.scrollTo({
-              left: Math.max(0, position.x - 20), // Account for the 20px padding in main container
-              top: Math.max(0, position.y - 20),  // Account for the 20px padding in main container
-              behavior: 'smooth'
-            });
-          }
-        }
+      // Use the anchor element approach
+      const winnersAnchor = document.getElementById('winners-bracket-anchor');
+      if (winnersAnchor) {
+        winnersAnchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     } else {
       // Table view - scroll to Winners section
@@ -78,45 +64,10 @@ export default function App() {
 
   const scrollToLosersBracket = () => {
     if (viewMode === 'bracket') {
-      // Find the first losers bracket match position
-      const losersMatches = bracket.filter(m => m.bracket === 'L');
-      console.log('Found losers matches:', losersMatches.length); // Debug log
-      if (losersMatches.length > 0) {
-        const firstLosersMatch = losersMatches[0];
-        console.log('First losers match ID:', firstLosersMatch.id); // Debug log
-        console.log('All nodePositions keys:', Object.keys(nodePositions)); // Debug log
-        const position = nodePositions[firstLosersMatch.id];
-        if (position) {
-          console.log('Losers bracket position details:', {
-            x: position.x,
-            y: position.y,
-            w: position.w,
-            h: position.h
-          }); // More detailed debug log
-          // Use the specific container ID we added
-          const container = document.getElementById('main-content-container');
-          if (container) {
-            console.log('Container dimensions:', {
-              scrollWidth: container.scrollWidth,
-              scrollHeight: container.scrollHeight,
-              clientWidth: container.clientWidth,
-              clientHeight: container.clientHeight
-            });
-            console.log('Container scroll before:', container.scrollLeft, container.scrollTop); // Debug log
-            // Scroll to the match position, accounting for the padding in the main container
-            container.scrollTo({
-              left: Math.max(0, position.x - 20), // Account for the 20px padding in main container
-              top: Math.max(0, position.y - 20),  // Account for the 20px padding in main container
-              behavior: 'smooth'
-            });
-            // Check scroll after a short delay
-            setTimeout(() => {
-              console.log('Container scroll after:', container.scrollLeft, container.scrollTop);
-            }, 500);
-          }
-        } else {
-          console.log('No position found for match:', firstLosersMatch.id);
-        }
+      // Use the anchor element approach
+      const losersAnchor = document.getElementById('losers-bracket-anchor');
+      if (losersAnchor) {
+        losersAnchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     } else {
       // Table view - scroll to Losers section
@@ -127,7 +78,7 @@ export default function App() {
     }
   };
 
-  // Recalculate node positions when bracket is loaded from localStorage
+  // Recalculate node positions when bracket is loaded
   useEffect(() => {
     if (bracket.length > 0 && Object.keys(nodePositions).length === 0) {
       const positions = getBracketNodePositions(bracket, rounds);
@@ -250,9 +201,6 @@ export default function App() {
       return newBracket;
     });
   };
-
-  // REMOVED the automatic bracket generation useEffect
-  // Bracket will only be created when user clicks "Start Tournament" or "Shuffle Bracket"
 
   // Handle players text change
   const handlePlayersChange = (e) => {
@@ -886,19 +834,7 @@ export default function App() {
               handleMatchPlayerNameEdit={handleMatchPlayerNameEdit}
             />
           )
-        ) : (
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '400px',
-            color: '#fff',
-            fontSize: '24px',
-            fontWeight: 'bold'
-          }}>
-            Enter at least 2 players to generate bracket
-          </div>
-        )}
+        ) : null}
       </div>
     </div>
   );

@@ -28,6 +28,38 @@ export default function Bracket({
     const maxY = Math.max(...Object.values(nodePositions).map(pos => pos.y + pos.h), 800);
     const svgHeight = Math.max(1800, maxY + 100);
 
+    // Find positions for anchor elements - center them in the middle of round 1
+    const winnersRound1 = bracket.filter(m => m.bracket === "W" && m.round === 1);
+    const losersRound1 = bracket.filter(m => m.bracket === "L" && m.round === 1);
+
+    // Calculate center position for winners round 1
+    let winnersAnchorPosition = null;
+    if (winnersRound1.length > 0) {
+        const winnersPositions = winnersRound1.map(m => nodePositions[m.id]).filter(Boolean);
+        if (winnersPositions.length > 0) {
+            const minY = Math.min(...winnersPositions.map(p => p.y));
+            const maxY = Math.max(...winnersPositions.map(p => p.y + p.h));
+            const centerY = (minY + maxY) / 2;
+            const centerX = winnersPositions[0].x + (winnersPositions[0].w / 2);
+
+            winnersAnchorPosition = { x: centerX, y: centerY };
+        }
+    }
+
+    // Calculate center position for losers round 1
+    let losersAnchorPosition = null;
+    if (losersRound1.length > 0) {
+        const losersPositions = losersRound1.map(m => nodePositions[m.id]).filter(Boolean);
+        if (losersPositions.length > 0) {
+            const minY = Math.min(...losersPositions.map(p => p.y));
+            const maxY = Math.max(...losersPositions.map(p => p.y + p.h));
+            const centerY = (minY + maxY) / 2;
+            const centerX = losersPositions[0].x + (losersPositions[0].w / 2);
+
+            losersAnchorPosition = { x: centerX, y: centerY };
+        }
+    }
+
     // Generate column headers
     const generateHeaders = () => {
         const headers = [];
@@ -155,6 +187,35 @@ export default function Bracket({
             }}
             className="bracket-container"
         >
+            {/* Invisible Anchor Elements for Navigation */}
+            {winnersAnchorPosition && (
+                <div
+                    id="winners-bracket-anchor"
+                    style={{
+                        position: 'absolute',
+                        left: winnersAnchorPosition.x - 100,
+                        top: winnersAnchorPosition.y - 100,
+                        width: 1,
+                        height: 1,
+                        visibility: 'hidden'
+                    }}
+                />
+            )}
+
+            {losersAnchorPosition && (
+                <div
+                    id="losers-bracket-anchor"
+                    style={{
+                        position: 'absolute',
+                        left: losersAnchorPosition.x - 100,
+                        top: losersAnchorPosition.y - 100,
+                        width: 1,
+                        height: 1,
+                        visibility: 'hidden'
+                    }}
+                />
+            )}
+
             {/* Column Headers */}
             {generateHeaders()}
 

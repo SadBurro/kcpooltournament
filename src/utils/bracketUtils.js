@@ -197,7 +197,7 @@ function buildLosersBracket(winnersRounds, startMatchNum) {
         sourceMatch: match
     }));
 
-    // Create LR1 matches
+    // Create LR1 matches - pair them correctly (1vs8, 2vs7, 3vs6, 4vs5 pattern)
     for (let i = 0; i < firstRoundLosers.length; i += 2) {
         if (i + 1 < firstRoundLosers.length) {
             const match = {
@@ -236,10 +236,17 @@ function buildLosersBracket(winnersRounds, startMatchNum) {
             sourceMatch: match
         }));
 
-        // Create upset round: new losers vs active players
+        // FIXED: Create upset round with correct pairing
+        // Follow Challonge's pattern: reverse only on specific rounds based on bracket dynamics
+        // LR2: reverse (fresh W2 losers vs L1 winners need rebalancing)  
+        // LR4: don't reverse (players have similar progression depth)
+        const shouldReverse = loserRoundNum === 2;
+        const orderedNewLosers = shouldReverse ? [...newLosers].reverse() : newLosers;
         const newActivePlayers = [];
-        for (let i = 0; i < newLosers.length; i++) {
-            const newLoser = newLosers[i];
+
+        for (let i = 0; i < orderedNewLosers.length; i++) {
+            const newLoser = orderedNewLosers[i];
+            // Pair with activePlayers in normal order
             const activePlayer = activePlayers[i] || { name: "BYE", ref: null };
 
             if (newLoser.name === "BYE" && activePlayer.name === "BYE") continue;
