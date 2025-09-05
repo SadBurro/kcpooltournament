@@ -6,6 +6,7 @@ import { getBracketNodePositions } from './utils/layoutUtils';
 import { capitalizeName, shuffleArray } from './utils/nameUtils';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { SpeedInsights } from "@vercel/speed-insights/react"
+import { Analytics } from "@vercel/analytics/react"
 import Bracket from './components/Bracket';
 import Sidebar from './components/Sidebar';
 import TableView from './components/TableView';
@@ -891,6 +892,7 @@ export default function App() {
         ) : null}
       </div>
       <SpeedInsights />
+      <Analytics />
     </div>
   );
 }
