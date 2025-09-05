@@ -8,22 +8,25 @@ import { useLocalStorage } from './hooks/useLocalStorage';
 import Bracket from './components/Bracket';
 import Sidebar from './components/Sidebar';
 import TableView from './components/TableView';
+import SplashScreen from './components/SplashScreen';
 
 export default function App() {
   // Players management - using in-memory state instead of localStorage
   const [playersText, setPlayersText] = useState('');
-  const [bracket, setBracket] = useState([]);
-  const [payoutAmounts, setPayoutAmounts] = useState(['']);
-  const [numPayoutPlaces, setNumPayoutPlaces] = useState(3);
+  const [bracket, setBracket] = useLocalStorage('tournamentBracket', []);
+  const [payoutAmounts, setPayoutAmounts] = useLocalStorage('payoutAmounts', ['']);
+  const [numPayoutPlaces, setNumPayoutPlaces] = useLocalStorage('numPayoutPlaces', 3);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [totalTables, setTotalTables] = useState(8);
-  const [tablesStartWithZero, setTablesStartWithZero] = useState(false);
-  const [customTableNumbers, setCustomTableNumbers] = useState('1,2,3,4,5,6,7,8');
+  const [totalTables, setTotalTables] = useLocalStorage('totalTables', 8);
+  const [tablesStartWithZero, setTablesStartWithZero] = useLocalStorage('tablesStartWithZero', false);
+  const [customTableNumbers, setCustomTableNumbers] = useLocalStorage('customTableNumbers', '1,2,3,4,5,6,7,8');
   const [lastPlayerList, setLastPlayerList] = useLocalStorage('lastPlayerList', '');
   const [showShuffleWarning, setShowShuffleWarning] = useState(false);
-  const [viewMode, setViewMode] = useState('bracket'); // 'bracket' or 'table'
+  const [viewMode, setViewMode] = useLocalStorage('viewMode', 'bracket'); // 'bracket' or 'table'
+  const [showSplashScreen, setShowSplashScreen] = useLocalStorage('showSplashScreen', true);
+  const [splashScreenDismissed, setSplashScreenDismissed] = useState(false);
 
-  const [nodePositions, setNodePositions] = useState({});
+  const [nodePositions, setNodePositions] = useLocalStorage('nodePositions', {});
 
   // File import ref
   const fileInputRef = useRef(null);
@@ -78,6 +81,36 @@ export default function App() {
       }
     }
   };
+
+  // Restore last player list on initial load
+  useEffect(() => {
+    if (!playersText && lastPlayerList) {
+      setPlayersText(lastPlayerList);
+    }
+  }, [lastPlayerList]);
+
+  // Restore players text from bracket on initial load if tournament exists
+  useEffect(() => {
+    if (!playersText && bracket.length > 0) {
+      // Extract player names from the bracket's first round
+      const playerNames = [];
+      bracket.forEach(match => {
+        if (match.round === 1) { // First round matches
+          if (match.p1?.name && !match.p1.name.includes('Winner of') && !match.p1.name.includes('Loser of') && match.p1.name !== 'BYE') {
+            playerNames.push(match.p1.name);
+          }
+          if (match.p2?.name && !match.p2.name.includes('Winner of') && !match.p2.name.includes('Loser of') && match.p2.name !== 'BYE') {
+            playerNames.push(match.p2.name);
+          }
+        }
+      });
+      
+      if (playerNames.length > 0) {
+        setPlayersText(playerNames.join('\n'));
+        setLastPlayerList(playerNames.join('\n'));
+      }
+    }
+  }, [bracket, playersText, setLastPlayerList]);
 
   // Recalculate node positions when bracket is loaded
   useEffect(() => {
@@ -206,6 +239,10 @@ export default function App() {
   // Handle players text change
   const handlePlayersChange = (e) => {
     setPlayersText(e.target.value);
+    // Save to lastPlayerList immediately when players text changes
+    if (e.target.value.trim()) {
+      setLastPlayerList(e.target.value);
+    }
   };
 
   const handlePlayersBlur = () => {
@@ -597,6 +634,12 @@ export default function App() {
     e.target.value = '';
   };
 
+  // Reset splash screen (for testing)
+  const resetSplashScreen = () => {
+    setShowSplashScreen(true);
+    setSplashScreenDismissed(false);
+  };
+
   // Simulate tournament (for testing)
   const simulateTournament = () => {
     setBracket(prevBracket => {
@@ -639,6 +682,14 @@ export default function App() {
       minHeight: '100vh',
       display: 'flex'
     }}>
+      {/* Splash Screen */}
+      {showSplashScreen && !splashScreenDismissed && (
+        <SplashScreen onDismiss={() => {
+          setShowSplashScreen(false);
+          setSplashScreenDismissed(true);
+        }} />
+      )}
+
       <Sidebar
         playersText={playersText}
         handlePlayersChange={handlePlayersChange}
@@ -654,6 +705,7 @@ export default function App() {
         numPayoutPlaces={numPayoutPlaces}
         setNumPayoutPlaces={setNumPayoutPlaces}
         simulateTournament={simulateTournament}
+        resetSplashScreen={resetSplashScreen}
         handleSidebarPlayerNameChange={handleSidebarPlayerNameChange}
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}

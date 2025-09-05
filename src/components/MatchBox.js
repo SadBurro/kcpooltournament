@@ -46,7 +46,7 @@ export default function MatchBox({
                     fontSize: 12,
                     fontStyle: 'italic',
                     display: 'block',
-                    width: 84,
+                    width: 120,
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap'
@@ -61,7 +61,7 @@ export default function MatchBox({
             <input
                 value={player.name}
                 style={{
-                    width: 84,
+                    width: 120,
                     fontSize: 12,
                     border: '1px solid #ccc',
                     borderRadius: 3,
@@ -142,7 +142,7 @@ export default function MatchBox({
                 marginBottom: 4,
                 ...getPlayerStyle(p1.name, p1IsWinner)
             }}>
-                <div style={{ flex: 1, marginRight: 4 }}>
+                <div style={{ flex: 1, marginRight: 8 }}>
                     {renderPlayerLabel(p1, 1)}
                 </div>
                 <input
@@ -169,7 +169,7 @@ export default function MatchBox({
                 marginBottom: 6,
                 ...getPlayerStyle(p2.name, p2IsWinner)
             }}>
-                <div style={{ flex: 1, marginRight: 4 }}>
+                <div style={{ flex: 1, marginRight: 8 }}>
                     {renderPlayerLabel(p2, 2)}
                 </div>
                 <input
